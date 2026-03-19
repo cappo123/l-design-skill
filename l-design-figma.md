@@ -82,25 +82,24 @@ If ping fails, tell user to start relay: `npx @ufira/vibma-tunnel`
 
 ## LAYOUT SYSTEM
 
-### Page Structure (Top Nav + Icon Sidebar)
+### Page Structure
+
+This skill covers **content-area design only** — top navigation bar and left sidebar are handled separately and NOT included here. Focus on the grey bg area and its inner content.
 
 ```
 ┌──────────────────────────────────────────────────────┐
-│  nav_bar_L (1440×50, componentId: 6443:11918)   │
-│  Transparent — requires pure white underneath        │
-├────┬─────────────────────────────────────────────────┤
-│icon│  Grey bg area (Background fill, radius-3xl 24px)│
-│side│                                                 │
-│bar │  Content margins from grey bg edges:            │
-│56px│    top: 40px                                    │
-│    │    left: 80px                                   │
-│comp│    right: 80px                                  │
-│ID: │    bottom: 40px                                 │
-│7841│                                                 │
-│:   │  Content width = bg width − 160px              │
-│3046│  (e.g., 1384 − 160 = 1224px)                   │
-│4   │                                                 │
-└────┴─────────────────────────────────────────────────┘
+│  Grey bg area (Background fill, radius-3xl 24px)     │
+│                                                      │
+│  Content margins from grey bg edges:                 │
+│    top: 40px                                         │
+│    left: 80px                                        │
+│    right: 80px                                       │
+│    bottom: 40px                                      │
+│                                                      │
+│  Content width = bg width − 160px                    │
+│  (e.g., 1384 − 160 = 1224px)                        │
+│                                                      │
+└──────────────────────────────────────────────────────┘
 ```
 
 **CRITICAL: Content margin rule — 40/80/80/40**
@@ -109,16 +108,12 @@ If ping fails, tell user to start relay: `npx @ufira/vibma-tunnel`
 - This creates generous breathing room inside the grey bg
 
 **Build order:**
-1. Page frame: 1440×H, fill: pure **White** (VariableID:10337:7729)
-   **Page height is NOT fixed at 900px** — if content requires more space, increase the canvas height (e.g., 1100px, 1400px) to ensure all content is fully visible. Never clip or compress content to fit 900px.
-2. Body frame: HORIZONTAL, at (0, 50), layoutSizingHorizontal: FILL
-3. `side_menu_hide` instance: componentId `7841:30464`, 56×height
-4. Main Content frame: Background fill (VariableID:10337:7728), radius-3xl (24px), layoutSizingHorizontal: FILL
+1. Main Content frame: Background fill (VariableID:10337:7728), radius-3xl (24px)
    - VERTICAL auto-layout
    - **padding: top 40, left 80, right 80, bottom 40**
    - itemSpacing: 24px
-5. `nav_bar_L` instance: componentId `6443:11918`, at (0,0), 1440×50
-6. Content modules inside Main Content, all using layoutSizingHorizontal: FILL
+   - **Height is NOT fixed** — if content requires more space, increase the frame height to ensure all content is fully visible.
+2. Content modules inside Main Content, all using layoutSizingHorizontal: FILL
 
 ### Spacing Constants
 - **Content margin from grey bg: 40px top/bottom, 80px left/right** (MOST IMPORTANT)
@@ -128,12 +123,9 @@ If ping fails, tell user to start relay: `npx @ufira/vibma-tunnel`
 - Row/item gap: 12px
 - Tight gap: 8px
 - Icon-text gap: 8px
-- Nav item height: 40px
 - Table row height: 48px
 - Input height: 40px
 - Button height: 36px (default), 40px (large)
-- Top nav bar height: 50px
-- Icon sidebar width: 56px
 
 ### Grid System
 - Main content width: grey bg width − 160px (80px × 2 margins)
@@ -449,42 +441,34 @@ Select / Filter dropdown:
 
 ## PAGE TYPE TEMPLATES
 
-### Type A: Dashboard Page (Nav + Icon Sidebar)
+### Type A: Dashboard Page
 Used for: main app screens, data views, project lists, task tables
 ```
-Page (1440×H, White fill — VariableID:10337:7729)
-├── nav_bar_L (0,0) — 1440×50 (componentId: 6443:11918)
-├── Body frame (0,50) — HORIZONTAL, 1440×(H-50)
-│   ├── side_menu_hide — 56×(H-50) (componentId: 7841:30464)
-│   └── Main Content — FILL width, Background fill (VariableID:10337:7728)
-│       cornerRadius: radius-3xl (24px)
-│       padding: top 40, left 80, right 80, bottom 40
-│       layoutMode: VERTICAL, itemSpacing: 24px
-│       ├── Page Header — HORIZONTAL, SPACE_BETWEEN, FILL width
-│       │   ├── Left: title (24-Bold, Grey-01) + subtitle (14-Regular, Grey-06)
-│       │   └── Right: action buttons (Export secondary + Primary CTA)
-│       ├── Filter Bar — HORIZONTAL, gap 8px, FILL width
-│       │   ├── Search input (FILL) + filter dropdowns (FIXED width)
-│       │   └── Each filter: White fill, radius-large, Stroke border
-│       │       with chevron-down icon (16×16, 1.33px stroke, Grey-08)
-│       └── Table Card — Data Table pattern (see COMMON COMPONENTS)
-│           layoutSizingHorizontal: FILL, layoutSizingVertical: HUG
+Main Content — Background fill (VariableID:10337:7728)
+  cornerRadius: radius-3xl (24px)
+  padding: top 40, left 80, right 80, bottom 40
+  layoutMode: VERTICAL, itemSpacing: 24px
+  ├── Page Header — HORIZONTAL, SPACE_BETWEEN, FILL width
+  │   ├── Left: title (24-Bold, Grey-01) + subtitle (14-Regular, Grey-06)
+  │   └── Right: action buttons (Export secondary + Primary CTA)
+  ├── Filter Bar — HORIZONTAL, gap 8px, FILL width
+  │   ├── Search input (FILL) + filter dropdowns (FIXED width)
+  │   └── Each filter: White fill, radius-large, Stroke border
+  │       with chevron-down icon (16×16, 1.33px stroke, Grey-08)
+  └── Table Card — Data Table pattern (see COMMON COMPONENTS)
+      layoutSizingHorizontal: FILL, layoutSizingVertical: HUG
 ```
 
 ### Type B: Settings Page (Text Sidebar + Content)
 Used for: account settings, preferences, integrations
 ```
-Page (1440×H, White fill)
-├── nav_bar_L (0,0) — 1440×50
-├── bg rect (56,50) — Background, radius-3xl
-├── side_menu_hide (0,50) — 56px
-└── Content area
-    ├── Text nav sidebar (~200px, White bg)
-    │   ├── Nav items: 14-Medium, Grey-06 (default), Grey-01 (active)
-    │   └── Active indicator: left border or subtle bg tint
-    └── Main content (~1100px)
-        ├── Section title: 20-Bold, Grey-01
-        └── Form fields / settings cards
+Main Content — Background fill, radius-3xl, padding: 40/80/80/40
+  ├── Text nav sidebar (~200px, White bg)
+  │   ├── Nav items: 14-Medium, Grey-06 (default), Grey-01 (active)
+  │   └── Active indicator: left border or subtle bg tint
+  └── Main content (~1100px)
+      ├── Section title: 20-Bold, Grey-01
+      └── Form fields / settings cards
 ```
 
 ### Type C: Auth/Login Page (Split Layout)
@@ -511,8 +495,7 @@ Used for: campaign details, proposal review, item editing, **order detail drawer
 **CRITICAL RULE: ALL right-side drawers/panels/sheets MUST use this floating panel style. NEVER use modal overlay (dark mask) + full-height drawer. This is a L design principle — drawers float within the grey bg area, not on top of the entire screen.**
 
 ```
-Page (1440×H, layoutMode: NONE for absolute positioning)
-├── Standard nav + Body (side_menu + Main Content)
+Main Content (layoutMode: NONE for absolute positioning)
 ├── Left content area: flow modules, cards, data
 └── Right floating panel
     ├── Position: 4px inset from Main Content (grey bg) edges

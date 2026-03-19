@@ -133,31 +133,22 @@ Usage: `className="bg-l-cyan text-grey-01 rounded-xl"`
 
 ## PAGE LAYOUT SYSTEM
 
-### Standard Dashboard Page (Nav + Icon Sidebar + Content)
+### Standard Content Area
+
+This skill covers **content-area design only** — top navigation bar and left sidebar are handled separately and NOT included here.
 
 ```tsx
-<div className="w-[1440px] min-h-screen bg-white flex flex-col">
-  {/* Top Navigation Bar — 50px, full width */}
-  <NavBar />
-
-  {/* Body: sidebar + content */}
-  <div className="flex flex-1">
-    {/* Collapsed Icon Sidebar — 56px fixed */}
-    <Sidebar />
-
-    {/* Main Content Area — grey background, rounded container */}
-    <main
-      className="flex-1 bg-[var(--bg)] flex flex-col gap-6"
-      style={{
-        borderRadius: 'var(--radius-3xl)',
-        padding: '40px 80px',  /* CRITICAL: 40/80/80/40 content margins */
-      }}
-    >
-      {/* Page content goes here */}
-      {children}
-    </main>
-  </div>
-</div>
+{/* Main Content Area — grey background, rounded container */}
+<main
+  className="flex-1 bg-[var(--bg)] flex flex-col gap-6"
+  style={{
+    borderRadius: 'var(--radius-3xl)',
+    padding: '40px 80px',  /* CRITICAL: 40/80/80/40 content margins */
+  }}
+>
+  {/* Page content goes here */}
+  {children}
+</main>
 ```
 
 **CRITICAL content margin rule: `padding: 40px 80px`**
@@ -179,8 +170,6 @@ Tight gap:                    8px (icon-text, tag padding)
 ### Fixed Sizing
 
 ```
-Nav bar height:      50px
-Sidebar width:       56px
 Table row height:    48px (text-only), 80px+ (with images/thumbnails)
 Input height:        40px
 Button height:       36px (default), 40px (large modals)
@@ -696,12 +685,8 @@ function FloatingPanel({ title, children, footer, onClose }) {
 ```tsx
 export default function DashboardPage() {
   return (
-    <div className="w-[1440px] min-h-screen bg-white flex flex-col">
-      <NavBar />
-      <div className="flex flex-1">
-        <Sidebar />
-        <main className="flex-1 bg-[var(--bg)] rounded-3xl flex flex-col gap-6"
-              style={{ padding: '40px 80px' }}>
+    <main className="flex-1 bg-[var(--bg)] rounded-3xl flex flex-col gap-6"
+          style={{ padding: '40px 80px' }}>
 
           {/* Page Header */}
           <div className="flex items-center justify-between">
@@ -724,9 +709,7 @@ export default function DashboardPage() {
             <DataTable columns={[...]} rows={[...]} />
           </Card>
 
-        </main>
-      </div>
-    </div>
+    </main>
   );
 }
 ```
