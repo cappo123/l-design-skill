@@ -1,6 +1,6 @@
-# /lanbow-coding — Lanbow Frontend Code Generator
+# /l-coding — L Frontend Code Generator
 
-Generate production-grade frontend code (React/Next.js + Tailwind CSS) that precisely implements the Lanbow design system. Every component, color, spacing, and interaction pattern matches the Lanbow Figma spec 1:1.
+Generate production-grade frontend code (React/Next.js + Tailwind CSS) that precisely implements the L design system. Every component, color, spacing, and interaction pattern matches the L Figma spec 1:1.
 
 ---
 
@@ -12,7 +12,7 @@ All components reference these tokens — NEVER hardcode hex values.
 ```css
 :root {
   /* ── Colors ── */
-  --lanbow-cyan: #00B1A2;         /* Brand primary: active states, links, positive trends ONLY */
+  --l-cyan: #00B1A2;         /* Brand primary: active states, links, positive trends ONLY */
   --grey-01: #181818;             /* Primary text, headings, primary button fill */
   --grey-06: #626262;             /* Secondary text, captions */
   --grey-08: #999999;             /* Placeholder text, disabled states, tertiary text */
@@ -61,7 +61,7 @@ All components reference these tokens — NEVER hardcode hex values.
 If using Tailwind v4 with `@theme`, add to your CSS:
 ```css
 @theme {
-  --color-lanbow-cyan: #00B1A2;
+  --color-l-cyan: #00B1A2;
   --color-grey-01: #181818;
   --color-grey-06: #626262;
   --color-grey-08: #999999;
@@ -82,7 +82,7 @@ If using Tailwind v4 with `@theme`, add to your CSS:
 }
 ```
 
-Usage: `className="bg-lanbow-cyan text-grey-01 rounded-xl"`
+Usage: `className="bg-l-cyan text-grey-01 rounded-xl"`
 
 ---
 
@@ -193,7 +193,7 @@ These are **mandatory rules** — every component and page MUST comply.
 
 ### P1: Color Ratio (85/10/5)
 - **~85% Greyscale**: `--grey-01` through `--grey-12`, `--white`, `--bg`
-- **~10% Brand**: `--lanbow-cyan` — ONLY active states, links, positive indicators
+- **~10% Brand**: `--l-cyan` — ONLY active states, links, positive indicators
 - **~5% Semantic**: `--red` for errors, `--orange` for warnings — NEVER decorative
 - **NEVER use cyan as button background** — buttons are `--grey-01` bg + white text
 
@@ -250,7 +250,7 @@ All spacing values derive from 4px multiples: 4, 8, 12, 16, 20, 24, 32, 40, 80.
 </button>
 
 /* Text/Link — inline actions */
-<button className="text-[var(--lanbow-cyan)] text-14-medium bg-transparent border-none">
+<button className="text-[var(--l-cyan)] text-14-medium bg-transparent border-none">
   View More
 </button>
 ```
@@ -527,7 +527,7 @@ function Button({ variant = 'primary', size = 'default', disabled, children, ...
     primary: 'bg-[var(--grey-01)] text-white hover:opacity-90',
     secondary: 'bg-transparent border border-[var(--grey-01)] text-[var(--grey-01)] hover:bg-[var(--selected)]',
     destructive: 'bg-[var(--red)] text-white hover:opacity-90',
-    ghost: 'bg-transparent text-[var(--lanbow-cyan)] hover:underline',
+    ghost: 'bg-transparent text-[var(--l-cyan)] hover:underline',
   };
 
   const sizes = {
@@ -600,7 +600,7 @@ function Toggle({ checked, onChange }) {
       onClick={() => onChange?.(!checked)}
       className={`
         relative w-10 h-5 rounded-full transition-colors duration-200
-        ${checked ? 'bg-[var(--lanbow-cyan)]' : 'bg-[var(--grey-12)]'}
+        ${checked ? 'bg-[var(--l-cyan)]' : 'bg-[var(--grey-12)]'}
       `}
     >
       <span className={`
@@ -684,7 +684,7 @@ function FloatingPanel({ title, children, footer, onClose }) {
 }
 ```
 
-**CRITICAL: ALL right-side drawers MUST use this floating panel pattern. NEVER use full-screen modal overlay + drawer. Lanbow drawers float within the grey bg area.**
+**CRITICAL: ALL right-side drawers MUST use this floating panel pattern. NEVER use full-screen modal overlay + drawer. L drawers float within the grey bg area.**
 
 ---
 
@@ -750,7 +750,7 @@ export default function LoginPage() {
           <InputField label="Password" placeholder="••••••••" type="password" />
           <Button variant="primary" size="large" className="w-full">Sign In</Button>
           <p className="text-12-regular text-[var(--grey-06)] text-center">
-            Don't have an account? <a className="text-[var(--lanbow-cyan)]">Sign Up</a>
+            Don't have an account? <a className="text-[var(--l-cyan)]">Sign Up</a>
           </p>
         </div>
       </div>
@@ -805,7 +805,7 @@ function SettingsIcon({ className = '' }) {
 }
 ```
 
-For icon libraries, use [Lucide React](https://lucide.dev/) which matches the Lanbow icon style (24×24, 2px stroke line icons). Set `strokeWidth` per P12 size rules.
+For icon libraries, use [Lucide React](https://lucide.dev/) which matches the L icon style (24×24, 2px stroke line icons). Set `strokeWidth` per P12 size rules.
 
 ```tsx
 import { Settings, BarChart3, ChevronDown } from 'lucide-react';
@@ -822,7 +822,7 @@ import { Settings, BarChart3, ChevronDown } from 'lucide-react';
 ## EXAMPLE INVOCATIONS
 
 ```
-/lanbow-coding Build the Account Settings page with profile form, notification toggles, and billing section
-/lanbow-coding Create a transaction history table with filters, pagination, and status badges
-/lanbow-coding Build the recharge flow: amount selection → payment method → processing → result modal
+/l-coding Build the Account Settings page with profile form, notification toggles, and billing section
+/l-coding Create a transaction history table with filters, pagination, and status badges
+/l-coding Build the recharge flow: amount selection → payment method → processing → result modal
 ```

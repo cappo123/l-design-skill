@@ -1,6 +1,6 @@
-# /lanbow-design — Lanbow UI Design Generator
+# /l-design — L UI Design Generator
 
-Generate high-fidelity Figma design pages that match the Lanbow design system. Reads PRD/requirements, asks clarifying questions when needed, then creates complete Figma screens using proper design tokens.
+Generate high-fidelity Figma design pages that match the L design system. Reads PRD/requirements, asks clarifying questions when needed, then creates complete Figma screens using proper design tokens.
 
 ---
 
@@ -15,11 +15,11 @@ If ping fails, tell user to start relay: `npx @ufira/vibma-tunnel`
 
 ## DESIGN TOKENS
 
-### Color Variables (Collection: "Lanbow Colors", collectionId: VariableCollectionId:10337:7721, modeId: 10337:0)
+### Color Variables (Collection: "L Colors", collectionId: VariableCollectionId:10337:7721, modeId: 10337:0)
 
 | Token | Variable ID | Hex | Usage |
 |---|---|---|---|
-| LANBOW-Cyan | VariableID:10337:7723 | #00B1A2 | Brand primary, CTA, active states, links |
+| L-Cyan | VariableID:10337:7723 | #00B1A2 | Brand primary, CTA, active states, links |
 | Grey-01 | VariableID:10337:7724 | #181818 | Primary text, headings |
 | Grey-06 | VariableID:10337:7725 | #626262 | Secondary text, captions |
 | Grey-08 | VariableID:10337:7726 | #999999 | Placeholder text, disabled states |
@@ -33,7 +33,7 @@ If ping fails, tell user to start relay: `npx @ufira/vibma-tunnel`
 
 **RULE: NEVER use hardcoded hex colors. Always use `fillVariableId` / `strokeVariableId` / `set_variable_binding`.**
 
-### Radius Variables (Collection: "Lanbow Radius", collectionId: VariableCollectionId:10337:7722, modeId: 10337:1)
+### Radius Variables (Collection: "L Radius", collectionId: VariableCollectionId:10337:7722, modeId: 10337:1)
 
 | Token | Variable ID | Value | Usage |
 |---|---|---|---|
@@ -86,7 +86,7 @@ If ping fails, tell user to start relay: `npx @ufira/vibma-tunnel`
 
 ```
 ┌──────────────────────────────────────────────────────┐
-│  nav_bar_Lanbow (1440×50, componentId: 6443:11918)   │
+│  nav_bar_L (1440×50, componentId: 6443:11918)   │
 │  Transparent — requires pure white underneath        │
 ├────┬─────────────────────────────────────────────────┤
 │icon│  Grey bg area (Background fill, radius-3xl 24px)│
@@ -117,7 +117,7 @@ If ping fails, tell user to start relay: `npx @ufira/vibma-tunnel`
    - VERTICAL auto-layout
    - **padding: top 40, left 80, right 80, bottom 40**
    - itemSpacing: 24px
-5. `nav_bar_Lanbow` instance: componentId `6443:11918`, at (0,0), 1440×50
+5. `nav_bar_L` instance: componentId `6443:11918`, at (0,0), 1440×50
 6. Content modules inside Main Content, all using layoutSizingHorizontal: FILL
 
 ### Spacing Constants
@@ -146,11 +146,11 @@ If ping fails, tell user to start relay: `npx @ufira/vibma-tunnel`
 
 ## DESIGN PRINCIPLES (Cross-Page Consistency Rules)
 
-These principles ensure any NEW page — even without reusing existing components — looks consistent with the Lanbow system.
+These principles ensure any NEW page — even without reusing existing components — looks consistent with the L system.
 
 ### P1: Color Ratio Rule (85 / 10 / 5)
 - **~85% Greyscale**: White, Background, Grey-01 through Grey-12 form the entire base
-- **~10% Brand Accent**: LANBOW-Cyan — ONLY for active states, links, positive trend indicators, and text highlights
+- **~10% Brand Accent**: L-Cyan — ONLY for active states, links, positive trend indicators, and text highlights
 - **~5% Semantic**: Red for errors/delete, Orange for warnings — never decorative
 - **NEVER use Cyan as button fill** — buttons are Grey-01 fill + White text. Cyan is text/icon-only.
 
@@ -214,7 +214,7 @@ All spacing derives from an 4px base grid, with these standard steps:
 |---|---|---|---|---|
 | Primary | Grey-01 | White | none | Main CTA per section (1 per visible area) |
 | Secondary | White | Grey-01 | Grey-12 | Alternative actions alongside primary |
-| Text/Link | transparent | LANBOW-Cyan | none | Inline actions, "View More", navigation |
+| Text/Link | transparent | L-Cyan | none | Inline actions, "View More", navigation |
 | Destructive | Red | White | none | Delete confirmation ONLY (inside modals) |
 | Disabled | Grey-12 | Grey-08 | none | Unavailable actions |
 
@@ -278,7 +278,7 @@ Rules:
 - The only borders allowed inside a card are: input field strokes (form controls), thin 1px divider lines (Grey-12), and table row separators.
 
 ### P10: Selection Indicators — Single-Select vs Multi-Select
-**Lanbow uses two distinct indicator styles depending on the selection mode.**
+**L uses two distinct indicator styles depending on the selection mode.**
 
 #### Single-Select (Radio-style) — Circular Check Icon
 Used in **card-style selection** where only ONE option can be chosen (payment method, data scope, plan tier).
@@ -317,7 +317,7 @@ Unchecked: clone_node { nodeId: "3912:27340", parentId: col_frame_id }
 Disabled:  clone_node { nodeId: "3912:27340", parentId: col_frame_id } → patch opacity: 0.35
 ```
 
-**🚫 #8366FF PERMANENTLY BANNED** — This purple/violet color is **permanently removed** from Lanbow. It must NEVER appear in any design. The source component `icon_select_sel` (2419:3384) has been patched to Grey-01 at the source. If purple ever reappears after cloning, immediately override to Grey-01. No exceptions.
+**🚫 #8366FF PERMANENTLY BANNED** — This purple/violet color is **permanently removed** from L. It must NEVER appear in any design. The source component `icon_select_sel` (2419:3384) has been patched to Grey-01 at the source. If purple ever reappears after cloning, immediately override to Grey-01. No exceptions.
 
 **CRITICAL — Do NOT**:
 - Resize these components (stroke integrity rule P12)
@@ -399,7 +399,7 @@ When a child frame is the **first or last child** inside a parent with padding, 
 **Anti-pattern**: Card paddingTop: 20px → child paddingTop: 8px → total 28px (too much).
 **Correct**: Card paddingTop: 20px → child paddingTop: 0px → clean 20px.
 
-### P16: Secondary Button Standard (from Lanbow 2.0 library)
+### P16: Secondary Button Standard (from L 2.0 library)
 **Secondary buttons use transparent fill + Grey-01 stroke. NEVER use Grey-12 or light grey stroke.**
 
 ```
@@ -425,7 +425,7 @@ Primary button (for reference):
 - After creating/modifying buttons, always **visually verify** that paired buttons are equal height.
 
 ### P17: Select / Filter Dropdown Standard
-**Match Lanbow 2.0 Select component style. Do NOT freestyle filter UI.**
+**Match L 2.0 Select component style. Do NOT freestyle filter UI.**
 
 ```
 Select / Filter dropdown:
@@ -453,7 +453,7 @@ Select / Filter dropdown:
 Used for: main app screens, data views, project lists, task tables
 ```
 Page (1440×H, White fill — VariableID:10337:7729)
-├── nav_bar_Lanbow (0,0) — 1440×50 (componentId: 6443:11918)
+├── nav_bar_L (0,0) — 1440×50 (componentId: 6443:11918)
 ├── Body frame (0,50) — HORIZONTAL, 1440×(H-50)
 │   ├── side_menu_hide — 56×(H-50) (componentId: 7841:30464)
 │   └── Main Content — FILL width, Background fill (VariableID:10337:7728)
@@ -475,7 +475,7 @@ Page (1440×H, White fill — VariableID:10337:7729)
 Used for: account settings, preferences, integrations
 ```
 Page (1440×H, White fill)
-├── nav_bar_Lanbow (0,0) — 1440×50
+├── nav_bar_L (0,0) — 1440×50
 ├── bg rect (56,50) — Background, radius-3xl
 ├── side_menu_hide (0,50) — 56px
 └── Content area
@@ -493,7 +493,7 @@ Used for: login, signup, password reset, verification
 Page (1440×900)
 ├── Left panel (~40-50% width)
 │   ├── Fill: near-black (#1A1A1A or brand dark)
-│   ├── LANBOW logo: White, top-left area
+│   ├── L logo: White, top-left area
 │   └── Brand imagery: abstract/dark, decorative only
 └── Right panel (~50-60% width)
     ├── Fill: White
@@ -508,7 +508,7 @@ Page (1440×900)
 ### Type D: Detail Page (Content + Right Floating Panel)
 Used for: campaign details, proposal review, item editing, **order detail drawers, any right-side drawer/panel**.
 
-**CRITICAL RULE: ALL right-side drawers/panels/sheets MUST use this floating panel style. NEVER use modal overlay (dark mask) + full-height drawer. This is a Lanbow design principle — drawers float within the grey bg area, not on top of the entire screen.**
+**CRITICAL RULE: ALL right-side drawers/panels/sheets MUST use this floating panel style. NEVER use modal overlay (dark mask) + full-height drawer. This is a L design principle — drawers float within the grey bg area, not on top of the entire screen.**
 
 ```
 Page (1440×H, layoutMode: NONE for absolute positioning)
@@ -574,7 +574,7 @@ Panel (floating, right-aligned from nav)
 │   │   ├── Timestamp: 12-Regular, Grey-08, right-aligned
 │   │   └── Preview text: 14-Regular, Grey-06 (truncated 1 line)
 │   └── Unread indicator: subtle Background tint on row
-└── Footer: "View All" link, centered, 14-Medium, LANBOW-Cyan
+└── Footer: "View All" link, centered, 14-Medium, L-Cyan
 ```
 
 ---
@@ -585,7 +585,7 @@ Panel (floating, right-aligned from nav)
 ```
 Container: HORIZONTAL, Background fill, radius-large (8px), padding 4px
   ├── Active tab: White fill, Grey-12 stroke, radius-medium (6px)
-  │   Icon (16×16, LANBOW-Cyan) + 14-Medium, Grey-01
+  │   Icon (16×16, L-Cyan) + 14-Medium, Grey-01
   │   layoutSizingHorizontal: FILL
   └── Inactive tab: transparent, no stroke
       Icon (16×16, Grey-06) + 14-Regular, Grey-06
@@ -603,7 +603,7 @@ HORIZONTAL, SPACE_BETWEEN, full width
 ### Breadcrumb / Status Indicator
 ```
 HORIZONTAL, gap 8px, center-aligned
-  ├── Green dot: 8×8 ellipse, LANBOW-Cyan fill
+  ├── Green dot: 8×8 ellipse, L-Cyan fill
   └── Label: 14-Medium, Grey-01 (e.g., "Ad Strategy Formulation")
 ```
 
@@ -628,7 +628,7 @@ frame: height 40px, padding H 12px, radius-medium (6px)
 ```
 Container: 40×20px, radius-round
   Off: Grey-12 fill, knob left
-  On: LANBOW-Cyan fill, knob right
+  On: L-Cyan fill, knob right
   Knob: 16×16 circle, White fill, centered vertically
 ```
 
@@ -643,7 +643,7 @@ circle: 32×32 (default), 40×40 (large), 24×24 (small)
 ### Progress / Status Dot
 ```
 8×8 ellipse, radius-round
-  Active/Success: LANBOW-Cyan
+  Active/Success: L-Cyan
   Warning: Orange
   Error: Red
   Inactive: Grey-12
@@ -669,7 +669,7 @@ Modal: ~520px wide, White fill, radius-2xl (16px), padding 24px
 ### Aesthetic: Rational · Restrained · Nordic
 - **Clean whitespace** — let content breathe, don't pack elements
 - **Monochromatic base** — Grey-01 text on White/Background
-- **Single accent** — LANBOW-Cyan for active states and links ONLY. Never as button fill.
+- **Single accent** — L-Cyan for active states and links ONLY. Never as button fill.
 - **No gradients** — flat fills only (exception: login brand panel)
 - **Typography-led** — hierarchy through font weight/size, not color
 - **Borders over shadows** — use Stroke variable for card borders instead of drop shadows
@@ -689,7 +689,7 @@ This mirrors how information flows in editorial/magazine layouts — from macro 
 ## ICON LIBRARY
 
 ### Usage Rules (MANDATORY)
-- **ALL icons MUST come from the Lanbow icon library** (component page, scopeNodeId: `"10:175"`). NEVER create custom shapes, draw paths, or use non-library icons.
+- **ALL icons MUST come from the L icon library** (component page, scopeNodeId: `"10:175"`). NEVER create custom shapes, draw paths, or use non-library icons.
 - **How to use**: Clone the icon COMPONENT (not instance) via `clone_node`, then resize the clone. Do NOT clone instances — clone the component node directly (type: COMPONENT).
 - **Search icons**: Use `mcp__Vibma__search_nodes` with `scopeNodeId: "10:175"` and `query: "icon-name"`. Pick the result with `type: "COMPONENT"`.
 - **Default color**: Grey-01 (VariableID:10337:7724, #181818) — bind via `set_variable_binding` field `strokes/0/color` on the inner VECTOR node (NOT `fills/0/color` — icon fills are invisible, only strokes render)
@@ -932,7 +932,7 @@ Table Card container (THE ONLY card on the page):
 
 Status badges:
   radius-round (9999px), height 24px, padding H 10px
-  "In Progress": LANBOW-Cyan fill at 10% opacity, text LANBOW-Cyan, 12-Medium
+  "In Progress": L-Cyan fill at 10% opacity, text L-Cyan, 12-Medium
   "Completed"/"Pending": Grey-12 fill, text Grey-01, 12-Medium
   "Overdue": Red fill at 10% opacity, text Red, 12-Medium
 
@@ -985,8 +985,8 @@ card (1/4 width): padding 20px, radius-extra-large, White
 ```
 frame: width fills sidebar, height 40px, padding L 12px, radius-large
   fill: Selected (rgba 0,0,0,2%) or Cyan tint
-  icon: 16×16, LANBOW-Cyan
-  label: 14-Medium, LANBOW-Cyan
+  icon: 16×16, L-Cyan
+  label: 14-Medium, L-Cyan
 ```
 
 ### Navigation Item (default)
@@ -1003,14 +1003,14 @@ frame: height 24px, padding H 8px, radius-round
   Success: fill green-tint, text 12-Medium Green
   Error: fill red-tint, text 12-Medium Red
   Warning: fill orange-tint, text 12-Medium Orange
-  Info: fill cyan-tint, text 12-Medium LANBOW-Cyan
+  Info: fill cyan-tint, text 12-Medium L-Cyan
 ```
 
 ---
 
 ## LINE CHART PATTERN
 
-Reference: `折线图` / `chart` in Figma (Lanbow v2.0 page)
+Reference: `折线图` / `chart` in Figma (L v2.0 page)
 
 ### Overall Container
 - **Background**: White (`VariableID:10337:7729`), cornerRadius 16px → bind `radius-2xl` (`VariableID:10337:7740`)
@@ -1051,7 +1051,7 @@ Each card in the horizontal row above the chart:
 - Vertical padding: 8px top/bottom
 - Content center-aligned horizontally within card
 - Currency prefix (if needed): 16-Bold, same color as value
-- Trend indicator (e.g., "+19%"): 14-Medium, LANBOW-Cyan (positive) or Red (negative), right of label
+- Trend indicator (e.g., "+19%"): 14-Medium, L-Cyan (positive) or Red (negative), right of label
 
 ### Chart Grid
 - **Horizontal grid lines**: 5 lines, evenly spaced across chart height (every ~80px for 400px chart area)
@@ -1067,17 +1067,17 @@ Each card in the horizontal row above the chart:
 - **No axis lines** — the grid lines serve as visual reference instead
 
 ### Data Line (Curve)
-- **Stroke color**: LANBOW-Cyan (`VariableID:10337:7723`, #00B1A2)
+- **Stroke color**: L-Cyan (`VariableID:10337:7723`, #00B1A2)
 - **Stroke weight**: 2px
 - **Curve type**: Smooth bezier (not straight segments)
-- **Area fill** beneath curve: LANBOW-Cyan at ~10% opacity, gradient fading to transparent at bottom
+- **Area fill** beneath curve: L-Cyan at ~10% opacity, gradient fading to transparent at bottom
   - Creates a subtle "filled area" effect below the line
 
 ### Hover Interaction State
 - **Vertical crosshair**: 1px width, Grey-01 (#272727), opacity 60%
   - Full height of chart area (from top grid line to bottom)
 - **Data point dot**: 6×6px ellipse
-  - Fill: LANBOW-Cyan (`VariableID:10337:7723`)
+  - Fill: L-Cyan (`VariableID:10337:7723`)
   - Stroke: White (`VariableID:10337:7729`), 1px
   - Shadow: `drop-shadow(0 16px 4px rgba(131,102,255,0.08))`
 
@@ -1089,14 +1089,14 @@ Each card in the horizontal row above the chart:
 - **Arrow**: Small triangle pointing down, attached below tooltip body
 - **Position**: Centered above the data point dot
 
-### Token Mapping (hardcoded → Lanbow token)
+### Token Mapping (hardcoded → L token)
 
-| Figma Hardcoded | Closest Lanbow Token | Variable ID |
+| Figma Hardcoded | Closest L Token | Variable ID |
 |---|---|---|
 | #272727 | Grey-01 | VariableID:10337:7724 |
 | #999999 | Grey-08 | VariableID:10337:7726 |
 | #5b5b5b | Grey-06 | VariableID:10337:7725 |
-| #00b1a2 | LANBOW-Cyan | VariableID:10337:7723 |
+| #00b1a2 | L-Cyan | VariableID:10337:7723 |
 | rgba(0,0,0,0.04) | Selected | VariableID:10337:7730 |
 | #ffffff | White | VariableID:10337:7729 |
 | cornerRadius 16 | radius-2xl | VariableID:10337:7740 |
@@ -1107,7 +1107,7 @@ Each card in the horizontal row above the chart:
 
 ## REPORT TABLE PATTERN
 
-Reference: `Reports` / `Daily Report` in Figma (Lanbow v2.0 page)
+Reference: `Reports` / `Daily Report` in Figma (L v2.0 page)
 
 ### Overall Container
 - **Background**: White (`VariableID:10337:7729`)
@@ -1199,13 +1199,13 @@ report container (White, radius-2xl)
 
 | Value Direction | Text Color | Token |
 |---|---|---|
-| Positive (+) | LANBOW-Cyan | `VariableID:10337:7723` |
+| Positive (+) | L-Cyan | `VariableID:10337:7723` |
 | Negative (−) | Grey-08 | `VariableID:10337:7726` |
 | Zero / neutral | Grey-01 | `VariableID:10337:7724` |
 
 - Text style: 16-Regular
 - Prefix: "+" for positive, "−" for negative
-- Note: negative values use Grey-08 (muted), NOT Red — aligns with Lanbow's restrained color philosophy
+- Note: negative values use Grey-08 (muted), NOT Red — aligns with L's restrained color philosophy
 
 ### Column Group Headers (optional)
 When table has grouped columns (e.g., multiple "Conversions" groups):
@@ -1404,7 +1404,7 @@ Use `get_node_info` to mathematically verify alignment. **NEVER trust that coord
 ## EXAMPLE INVOCATIONS
 
 ```
-/lanbow-design Create a user management page with table, search filter, and invite user modal
-/lanbow-design Design the full onboarding flow: signup → setup profile → invite team → dashboard
-/lanbow-design Add a settings page to the existing design: general, notifications, billing tabs
+/l-design Create a user management page with table, search filter, and invite user modal
+/l-design Design the full onboarding flow: signup → setup profile → invite team → dashboard
+/l-design Add a settings page to the existing design: general, notifications, billing tabs
 ```
