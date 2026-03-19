@@ -4,6 +4,8 @@ Generate production-grade frontend code (React/Next.js + Tailwind CSS) that prec
 
 ---
 
+/* 增加一行注释 删掉橙色 */
+
 ## SETUP: CSS CUSTOM PROPERTIES
 
 **Paste this into your global CSS file (e.g., `globals.css` or `app.css`).**
@@ -22,7 +24,6 @@ All components reference these tokens — NEVER hardcode hex values.
   --selected: rgba(0,0,0,0.02);  /* Subtle fills: table headers, hover states, option cards, tag bg */
   --stroke: rgba(0,0,0,0.04);    /* Card borders, container strokes */
   --red: #FF2D55;                 /* Error, danger, destructive ONLY */
-  --orange: #FF9500;              /* Warning, attention ONLY */
   --c7: #2A6365;                  /* Magazine card title accent (dark teal) */
 
   /* ── Radius ── */
