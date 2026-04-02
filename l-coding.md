@@ -4,8 +4,6 @@ Generate production-grade frontend code (React/Next.js + Tailwind CSS) that prec
 
 ---
 
-/* 增加一行注释 删掉橙色 */
-
 ## SETUP: CSS CUSTOM PROPERTIES
 
 **Paste this into your global CSS file (e.g., `globals.css` or `app.css`).**
@@ -71,7 +69,6 @@ If using Tailwind v4 with `@theme`, add to your CSS:
   --color-selected: rgba(0,0,0,0.02);
   --color-stroke: rgba(0,0,0,0.04);
   --color-red: #FF2D55;
-  --color-orange: #FF9500;
 
   --radius-xs: 2px;
   --radius-sm: 4px;
@@ -184,7 +181,7 @@ These are **mandatory rules** — every component and page MUST comply.
 ### P1: Color Ratio (85/10/5)
 - **~85% Greyscale**: `--grey-01` through `--grey-12`, `--white`, `--bg`
 - **~10% Brand**: `--l-cyan` — ONLY active states, links, positive indicators
-- **~5% Semantic**: `--red` for errors, `--orange` for warnings — NEVER decorative
+- **~5% Semantic**: `--red` for errors/warnings — NEVER decorative
 - **NEVER use cyan as button background** — buttons are `--grey-01` bg + white text
 
 ### P2: Typography Creates Hierarchy (Not Color)
@@ -764,7 +761,7 @@ Before declaring done, verify:
 - [ ] Typography hierarchy: titles visually distinct from body (P2, P5)
 - [ ] Button heights match in every button group (P16)
 - [ ] No nested borders (P9)
-- [ ] Color discipline: only greys + cyan/red/orange for states (P1)
+- [ ] Color discipline: only greys + cyan/red for states (P1)
 - [ ] Form fields consistent (P8): 40px height, radius-md, Grey-12 stroke
 - [ ] Card padding from P13 tiers — no arbitrary values
 - [ ] Data values ≥ 1.5× label font size (P11)

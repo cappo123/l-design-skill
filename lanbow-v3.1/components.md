@@ -65,7 +65,7 @@ primaryAxisAlignItems: SPACE_BETWEEN
 
 ### Notification Item
 ```
-Container (VERTICAL, gap 22, with divider lines between items)
+Container (VERTICAL, gap 24, with divider lines between items)
 ├── Each item:
 │   ├── Meta line: Inter Regular 9px, Grey-06 ("10:42 AM · System Alert")
 │   ├── Title: Inter Bold 16px, Grey-01
@@ -123,7 +123,7 @@ Page (1440×H, fill: #FBF9F4, opacity ~0.98)
 │       │   └── Right Sidebar Card (FIXED ~280px, White fill, padding 24, no radius, no shadow)
 │       │       ├── Section Title: Abhaya Libre Bold 28px
 │       │       ├── Divider line
-│       │       ├── Notification items (VERTICAL, gap 22)
+│       │       ├── Notification items (VERTICAL, gap 24)
 │       │       └── "View All" button (bottom-aligned)
 ├── Top Nav Bar (absolute, at top)
 │   ├── Logo
@@ -164,9 +164,8 @@ All icons come from **Phosphor Icons Regular** variant: https://icones.js.org/co
 
 **Media**: `ph:image`, `ph:camera`, `ph:play`, `ph:pause`
 
-### Icon in Component (from reference design)
-The reference design uses Phosphor component instances with properties:
-- `Format`: "Stroke" or "Outline"
+### Icon in Component (Figma mode)
+When cloning from an existing Phosphor component in the Figma file, set `componentProperties`:
 - `Weight`: "Regular"
 
-When cloning from an existing Phosphor component in the file, use `componentProperties` to set these.
+**Note:** Phosphor Regular icons use **filled paths** (not stroke-based). The `fill` color should be set to Grey-01 (#181818). Do NOT confuse with stroke-based icon libraries.

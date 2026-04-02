@@ -304,7 +304,7 @@ Is this inside a single component?
 | Card padding (standard) | 24px | `--space-xl` |
 | Card padding (compact sub-card) | 16px top/bottom, 20px left/right | `--space-base` / `--space-lg` |
 | Column gap | 16px | `--space-base` |
-| Notification item gap | 22px | Custom (between `--space-lg` and `--space-xl`) |
+| Notification item gap | 24px | `--space-xl` |
 | Nav link gap | 36px | Custom |
 
 ---
