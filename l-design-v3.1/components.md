@@ -4,6 +4,21 @@ Card styles, KPI displays, notifications, page templates, and button styles.
 
 ---
 
+## COPY RULES
+
+All UI copy in this component system follows three mandatory rules:
+
+| Rule | Description |
+|---|---|
+| **No Emoji** | Never add emoji to any UI element — buttons, labels, titles, nav, notifications, placeholders |
+| **English Only** | All copy in English regardless of user's language. Translate Chinese/other language input to English |
+| **Text Length** | Title/label class ≤ 3 words. Content class truncates at container boundary with `…` |
+
+**Title / Label class**: buttons, nav items, tags, card titles, section headers
+**Content class**: descriptions, body text, table cells, notification body, helper text
+
+---
+
 ## BUTTON STYLES
 
 ### V3-Specific Button Style

@@ -333,6 +333,77 @@ module.exports = {
 
 ---
 
+## TEXT TRUNCATION UTILITIES
+
+Apply to all **content class** text (body, descriptions, table cells, notification body, helper text) that may overflow its container.
+
+### CSS Classes
+
+```css
+/* Single-line truncation — default for most content text */
+.truncate-line {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Multi-line clamp — 2 lines */
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Multi-line clamp — 3 lines */
+.clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+```
+
+### Tailwind Equivalents
+
+```tsx
+{/* Single-line — table cells, tags, nav labels */}
+<span className="truncate">Long content that overflows...</span>
+
+{/* 2-line clamp — notification body, card descriptions */}
+<p className="line-clamp-2">Long content that overflows...</p>
+
+{/* 3-line clamp — report body text */}
+<p className="line-clamp-3">Long content that overflows...</p>
+```
+
+### When to Use Each
+
+| Context | Truncation |
+|---|---|
+| Table cell (single row) | `truncate` |
+| Nav item / tag / button | `truncate` (but prefer ≤ 3 words — see Copy Rules) |
+| Notification body | `line-clamp-2` |
+| Card description / report body | `line-clamp-3` |
+| KPI label | `truncate` |
+| Tooltip / helper text | `line-clamp-2` |
+
+**IMPORTANT: Always set `min-w-0` or `overflow-hidden` on the parent flex/grid container, otherwise `truncate` has no effect.**
+
+```tsx
+{/* ✅ CORRECT — parent has min-w-0 */}
+<div className="flex min-w-0 gap-2">
+  <span className="truncate">Long text here</span>
+</div>
+
+{/* ❌ WRONG — truncate won't work without min-w-0 in flex */}
+<div className="flex gap-2">
+  <span className="truncate">Long text here</span>
+</div>
+```
+
+---
+
 ## REACT COMPONENT EXAMPLES
 
 ### KPI Card

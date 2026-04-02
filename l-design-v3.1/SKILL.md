@@ -24,6 +24,39 @@ This skill is split into focused modules. **Load only the files relevant to the 
 
 ---
 
+## COPY RULES (ALL MODES)
+
+These rules apply to **every UI text string** generated in both Figma mode and Frontend mode.
+
+### Rule 1: No Emoji
+Never add emoji to any UI copy — buttons, labels, titles, nav items, notifications, placeholders, helper text, or any other UI element. Emoji are prohibited unless explicitly present in the user's original design spec.
+
+❌ `"✅ Confirm"` `"🔔 Notifications"` `"📊 Analytics"`
+✅ `"Confirm"` `"Notifications"` `"Analytics"`
+
+### Rule 2: English Only
+All UI copy must be in English regardless of the language the user communicates in. When a user describes requirements in Chinese (or any other language), translate all interface text to natural English before output.
+
+❌ `"确认"` `"通知"` `"数据分析"`
+✅ `"Confirm"` `"Notifications"` `"Analytics"`
+
+### Rule 3: Text Length Rules
+
+**Title / Label class** (buttons, nav items, tags, card titles, section headers, tab labels):
+- Maximum **3 words**
+- Keep concise and action-oriented
+
+❌ `"Add a New Campaign Item"` `"View All Notifications"` `"Export Report Data"`
+✅ `"Add Item"` `"View All"` `"Export"`
+
+**Content class** (descriptions, body text, table cells, notification body, helper text):
+- No word count limit
+- Must truncate at container boundary — overflow renders as `…`
+- Frontend: use truncation utilities (see `frontend.md`)
+- Figma: set text node to fixed-width with text truncation enabled
+
+---
+
 ## MODE DETECTION
 
 Determine the mode based on context:
@@ -129,6 +162,10 @@ For each page/component:
 
 ### Step 4: Self-Review Checklist
 After creating each page, verify:
+- [ ] No emoji in any UI copy
+- [ ] All UI copy is in English
+- [ ] Title / label text ≤ 3 words (buttons, nav items, tags, section headers)
+- [ ] Content text has truncation applied where overflow is possible
 - [ ] All corner radius = 0 (no rounded corners anywhere except avatars)
 - [ ] Headings use Abhaya Libre (Bold 36px for H1, Bold 28px for H2)
 - [ ] KPI values use Newsreader SemiBold
