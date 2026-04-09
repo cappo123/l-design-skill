@@ -24,39 +24,6 @@ This skill is split into focused modules. **Load only the files relevant to the 
 
 ---
 
-## COPY RULES (ALL MODES)
-
-These rules apply to **every UI text string** generated in both Figma mode and Frontend mode.
-
-### Rule 1: No Emoji
-Never add emoji to any UI copy — buttons, labels, titles, nav items, notifications, placeholders, helper text, or any other UI element. Emoji are prohibited unless explicitly present in the user's original design spec.
-
-❌ `"✅ Confirm"` `"🔔 Notifications"` `"📊 Analytics"`
-✅ `"Confirm"` `"Notifications"` `"Analytics"`
-
-### Rule 2: English Only
-All UI copy must be in English regardless of the language the user communicates in. When a user describes requirements in Chinese (or any other language), translate all interface text to natural English before output.
-
-❌ `"确认"` `"通知"` `"数据分析"`
-✅ `"Confirm"` `"Notifications"` `"Analytics"`
-
-### Rule 3: Text Length Rules
-
-**Title / Label class** (buttons, nav items, tags, card titles, section headers, tab labels):
-- Maximum **3 words**
-- Keep concise and action-oriented
-
-❌ `"Add a New Campaign Item"` `"View All Notifications"` `"Export Report Data"`
-✅ `"Add Item"` `"View All"` `"Export"`
-
-**Content class** (descriptions, body text, table cells, notification body, helper text):
-- No word count limit
-- Must truncate at container boundary — overflow renders as `…`
-- Frontend: use truncation utilities (see `frontend.md`)
-- Figma: set text node to fixed-width with text truncation enabled
-
----
-
 ## MODE DETECTION
 
 Determine the mode based on context:
@@ -125,12 +92,104 @@ V3 adds a subtle noise texture over the background layer for tactile depth:
 
 **V3 elevation system**: Minimal shadow use — depth is primarily communicated through background color layering (#FBF9F4 page → #FFFFFF card → #F8F6F2 sub-card). Shadows are reserved for floating layers only. See `tokens.md` for full shadow token definitions.
 
-### P4-P15: Same as V1
-All other design principles from V1 carry over — spacing grid, Gestalt hierarchy, button discipline, form consistency, card padding rules, no nested borders, selection indicators, data value contrast, icon stroke integrity, card internal padding, title-divider balance, no double padding nesting, secondary button standard, select/filter dropdown standard.
+### P4: Consistent Spacing Grid
+All spacing derives from a 4px base grid. See `tokens.md` for the full scale (2px–48px) and usage guide. Key values: tight 4px, compact 8px, item 12px, component 16px, section 24px, module 40px.
 
-**Exception to P8 (Form Field Consistency):** Corner radius on inputs is now 0px instead of radius-medium (6px).
+### P5: Gestalt Hierarchy (Size Contrast + Proximity)
+**CRITICAL — apply on EVERY page, then review.**
+- **Size Contrast**: Section titles MUST be visually distinct from body — at least 2px size difference AND weight difference.
+- **Proximity**: Title → its content gap MUST be smaller than section → next section gap. This groups related content visually.
+  - Title → content: 16–20px (tight)
+  - Section → next section: 24–32px (loose)
 
-**Exception to P16 (Secondary Button):** Corner radius on buttons is now 0px instead of radius-large (8px).
+### P6: Restrained Aesthetic
+- No gradients (except login brand panel)
+- No decorative illustrations in dashboard — use data and whitespace
+- No colored backgrounds on cards — always White
+- Borders over fills for secondary elements (tags, chips, secondary buttons)
+- Left-align everything except: centered empty states, centered modal content, right-aligned numbers in tables
+
+### P7: Button Color Discipline
+
+| Type | Fill | Text | Stroke | Usage |
+|---|---|---|---|---|
+| Primary | Grey-01 | White | none | Main CTA (1 per visible area) |
+| Secondary | transparent | Grey-01 | Grey-01 1px | Alternative actions |
+| Text/Link | transparent | LANBOW-Cyan | none | Inline actions, "View More" |
+| Destructive | Red | White | none | Delete confirmation (modals only) |
+| Disabled | Grey-12 | Grey-08 | none | Unavailable actions |
+
+### P8: Form Field Consistency
+- Height: 40px
+- **Corner radius: 0px** (V3 override — was 6px in V1)
+- Stroke: Grey-12 1px (default) → Grey-01 (focus)
+- Fill: White
+- Label: bullet point (•) prefix + 14-Medium, Grey-01, 8px gap above input
+- Placeholder: 14-Regular, Grey-08
+- Error: 12-Regular, Red, replaces helper text
+- Table row with images: min row height 80px (48px image + 16px padding top/bottom)
+
+### P8.1: Card Bottom Padding — Visual Weight Rule
+Bottom padding depends on visual weight of the last element, not layout properties:
+- **Visually fills bottom** (full-width fields, textareas, dense lists) → bottom padding **40px**
+- **Visually sparse bottom** (right-aligned totals, buttons, short text) → bottom padding **24px**
+
+### P9: Whitespace Over Nested Borders
+**Do NOT nest bordered containers inside cards.** Use whitespace + background-color differentiation instead.
+- Tables inside cards: NO outer border — use Background fill on header + thin divider lines between rows
+- Sub-sections: vertical spacing (24px+), NOT bordered sub-cards
+- Selection groups: Background-filled cards (#F8F6F2 in V3) with 0px radius, NOT stroked cards
+- Only allowed borders inside a card: input strokes, 1px divider lines (Grey-12), table row separators
+
+### P10: Selection Indicators
+**Single-select (radio-style)**: Circular check icon. Card fill: Selected token, 0px radius (V3). Selected card adds subtle Stroke border (1.5px).
+**Multi-select (checkbox-style)**: Square 16×16 checkbox. Checked = Grey-01 fill + white checkmark; Unchecked = Grey-12 stroke + transparent fill.
+
+**Grid Layout with WRAP**: Always set BOTH `itemSpacing` (horizontal) and `counterAxisSpacing` (vertical).
+
+### P11: Data Value Contrast Rule
+Value MUST be significantly larger and bolder than its label:
+- Value font size ≥ 1.5× label size
+- Value = Bold weight, Label = Medium/Regular
+- Value = Grey-01, Label = Grey-08
+
+| Context | Label | Value | Ratio |
+|---|---|---|---|
+| KPI hero | 12-Medium, Grey-08 | 32-SemiBold Newsreader, Grey-01 | 2.67× |
+| KPI compact | 12-Medium, Grey-08 | 24-SemiBold Newsreader, Grey-01 | 2× |
+| Data card | 12-Medium, Grey-08 | 20-Bold, Grey-01 | 1.67× |
+
+Layout: VERTICAL (label top, value below, gap 2–4px). Avoid horizontal label-value for numeric data.
+
+### P12: Icon Stroke Integrity
+**NEVER resize icon components via width/height.** Use icons at native size (24×24 / 16×16). If no 16px variant exists, use 24×24 rather than a distorted shrink. Phosphor Regular icons in V3 use filled paths, so this primarily applies to custom SVG icons.
+
+### P13: Card Internal Padding Standard
+Strict tiers — no arbitrary values (e.g. 28px is BANNED):
+
+| Type | Padding |
+|---|---|
+| Small (dropdowns, chips) | 12px |
+| Standard (content cards) | 24px (V3 default) |
+| Modal/Dialog | 24px |
+| Large (magazine/hero) | 40px |
+
+### P14: Title-Divider Optical Balance
+When a card has Title → Divider → Content: spacing above title (paddingTop) MUST equal spacing below it to the divider line.
+
+### P15: No Double Padding Nesting
+When a child is the first/last inside a padded parent, the child MUST NOT add its own padding in the same direction. This prevents double-spacing.
+
+### P16: Secondary Button Standard
+**V3 override: cornerRadius = 0px** (was 8px in V1). All else same as V1:
+- Fill: transparent, Stroke: Grey-01 1px, Text: 14-Medium Grey-01
+- Primary and secondary buttons in the same row MUST have identical padding → identical height (standard V padding = 10px → 36px height)
+
+### P17: Select / Filter Dropdown Standard
+**V3 override: cornerRadius = 0px** (was 8px in V1).
+- Fill: White, Stroke: Grey-12 1px, Text: 14-Regular Grey-01
+- Chevron: 16×16 SVG, Grey-08, stroke-width 1.33px, right-aligned
+- Padding: H 12px, V 10px (~36px height)
 
 ---
 
@@ -162,10 +221,6 @@ For each page/component:
 
 ### Step 4: Self-Review Checklist
 After creating each page, verify:
-- [ ] No emoji in any UI copy
-- [ ] All UI copy is in English
-- [ ] Title / label text ≤ 3 words (buttons, nav items, tags, section headers)
-- [ ] Content text has truncation applied where overflow is possible
 - [ ] All corner radius = 0 (no rounded corners anywhere except avatars)
 - [ ] Headings use Abhaya Libre (Bold 36px for H1, Bold 28px for H2)
 - [ ] KPI values use Newsreader SemiBold

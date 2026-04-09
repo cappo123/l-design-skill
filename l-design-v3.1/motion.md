@@ -374,6 +374,366 @@ function ToastContainer({ toasts, onDismiss }) {
 
 ---
 
+## 6.1 FLOATING LAYER ANIMATIONS (Dropdown / Popover / Modal / Side Drawer)
+
+浮动层是用户交互中最高频的动效场景。V3 风格: **快速、克制、无弹性过冲**。进入用 ease-out（减速），退出用 ease-in（加速），退出时长 ≤ 进入时长的 60-70%。
+
+### 通用原则
+
+| 属性 | 进入 | 退出 |
+|---|---|---|
+| Duration | 200–300ms | 120–180ms |
+| Easing | `--ease-out` | `--ease-in` |
+| Transform origin | 靠近触发元素 | 同进入 |
+| 只动 | `opacity` + `transform` | `opacity` + `transform` |
+
+### Dropdown Menu
+
+从触发按钮方向展开，默认向下。Shadow: `--shadow-md`。
+
+**CSS 方案:**
+```css
+.dropdown-menu {
+  position: absolute;
+  z-index: 50;
+  background: var(--white);
+  border: 1px solid var(--stroke);
+  border-radius: 0;
+  box-shadow: var(--shadow-md);
+  transform-origin: top center;
+  /* initial hidden state */
+  opacity: 0;
+  transform: scaleY(0.92) translateY(-4px);
+  pointer-events: none;
+  transition: opacity 120ms var(--ease-in),
+              transform 120ms var(--ease-in);
+}
+.dropdown-menu.open {
+  opacity: 1;
+  transform: scaleY(1) translateY(0);
+  pointer-events: auto;
+  transition: opacity 200ms var(--ease-out),
+              transform 200ms var(--ease-out);
+}
+
+/* Menu items stagger (optional, for ≤8 items) */
+.dropdown-menu.open > * {
+  animation: fadeInUp 0.25s var(--ease-out) both;
+}
+.dropdown-menu.open > *:nth-child(1) { animation-delay: 30ms; }
+.dropdown-menu.open > *:nth-child(2) { animation-delay: 50ms; }
+.dropdown-menu.open > *:nth-child(3) { animation-delay: 70ms; }
+.dropdown-menu.open > *:nth-child(4) { animation-delay: 90ms; }
+.dropdown-menu.open > *:nth-child(5) { animation-delay: 110ms; }
+```
+
+**React + Framer Motion 方案:**
+```tsx
+import { motion, AnimatePresence } from 'framer-motion'
+
+function DropdownMenu({ isOpen, children, align = 'left' }) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, scaleY: 0.92, y: -4 }}
+          animate={{ opacity: 1, scaleY: 1, y: 0 }}
+          exit={{ opacity: 0, scaleY: 0.92, y: -4 }}
+          transition={{
+            duration: 0.2,
+            exit: { duration: 0.12 },
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          style={{
+            position: 'absolute',
+            top: '100%',
+            [align]: 0,
+            marginTop: 4,
+            zIndex: 50,
+            background: 'var(--white)',
+            border: '1px solid var(--stroke)',
+            borderRadius: 0,
+            boxShadow: 'var(--shadow-md)',
+            transformOrigin: 'top center',
+            overflow: 'hidden',
+          }}
+        >
+          {children}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
+```
+
+### Popover / Date Picker
+
+与 Dropdown 类似，但从触发元素中心方向展开。Shadow: `--shadow-md`。
+
+**React + Framer Motion 方案:**
+```tsx
+function Popover({ isOpen, children, position = 'bottom' }) {
+  const origins = {
+    top: 'bottom center',
+    bottom: 'top center',
+    left: 'center right',
+    right: 'center left',
+  }
+  const offsets = {
+    top: { y: 4 },
+    bottom: { y: -4 },
+    left: { x: 4 },
+    right: { x: -4 },
+  }
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, ...offsets[position] }}
+          animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, ...offsets[position] }}
+          transition={{
+            duration: 0.2,
+            exit: { duration: 0.12 },
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          style={{
+            position: 'absolute',
+            zIndex: 50,
+            background: 'var(--white)',
+            border: '1px solid var(--stroke)',
+            borderRadius: 0,
+            boxShadow: 'var(--shadow-md)',
+            transformOrigin: origins[position],
+          }}
+        >
+          {children}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
+```
+
+**CSS 方案 (bottom position):**
+```css
+.popover {
+  position: absolute;
+  z-index: 50;
+  background: var(--white);
+  border: 1px solid var(--stroke);
+  border-radius: 0;
+  box-shadow: var(--shadow-md);
+  transform-origin: top center;
+  opacity: 0;
+  transform: scale(0.95) translateY(-4px);
+  pointer-events: none;
+  transition: opacity 120ms var(--ease-in),
+              transform 120ms var(--ease-in);
+}
+.popover.open {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+  transition: opacity 200ms var(--ease-out),
+              transform 200ms var(--ease-out);
+}
+```
+
+### Modal / Dialog
+
+居中浮层，带半透明遮罩。Shadow: `--shadow-lg`。遮罩和内容分开编排，遮罩先入后出。
+
+**React + Framer Motion 方案:**
+```tsx
+function Modal({ isOpen, onClose, children }) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={onClose}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'rgba(0, 0, 0, 0.3)',
+            }}
+          />
+          {/* Content */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 12 }}
+            transition={{
+              duration: 0.25,
+              exit: { duration: 0.15 },
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            style={{
+              position: 'relative',
+              background: 'var(--white)',
+              borderRadius: 0,
+              boxShadow: 'var(--shadow-lg)',
+              padding: 'var(--space-xl)',
+              width: '90vw',
+              maxWidth: 560,
+              maxHeight: '85vh',
+              overflow: 'auto',
+            }}
+          >
+            {children}
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  )
+}
+```
+
+**CSS 方案:**
+```css
+/* Backdrop */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 150ms var(--ease-in);
+  pointer-events: none;
+}
+.modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 200ms var(--ease-out);
+}
+
+/* Content */
+.modal-content {
+  position: fixed;
+  z-index: 101;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95) translateY(12px);
+  background: var(--white);
+  border-radius: 0;
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-xl);
+  width: 90vw;
+  max-width: 560px;
+  max-height: 85vh;
+  overflow: auto;
+  opacity: 0;
+  transition: opacity 150ms var(--ease-in),
+              transform 150ms var(--ease-in);
+}
+.modal-content.open {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1) translateY(0);
+  transition: opacity 250ms var(--ease-out),
+              transform 250ms var(--ease-out);
+}
+```
+
+### Side Drawer
+
+从右侧滑入的全高面板。Shadow: `--shadow-overlay`。
+
+**React + Framer Motion 方案:**
+```tsx
+function SideDrawer({ isOpen, onClose, children, width = 400 }) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100]">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={onClose}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'rgba(0, 0, 0, 0.3)',
+            }}
+          />
+          {/* Drawer */}
+          <motion.aside
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{
+              duration: 0.3,
+              exit: { duration: 0.2 },
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              width,
+              maxWidth: '90vw',
+              background: 'var(--white)',
+              borderRadius: 0,
+              boxShadow: 'var(--shadow-overlay)',
+              padding: 'var(--space-xl)',
+              overflow: 'auto',
+            }}
+          >
+            {children}
+          </motion.aside>
+        </div>
+      )}
+    </AnimatePresence>
+  )
+}
+```
+
+**CSS 方案:**
+```css
+.drawer-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 101;
+  width: 400px;
+  max-width: 90vw;
+  background: var(--white);
+  border-radius: 0;
+  box-shadow: var(--shadow-overlay);
+  padding: var(--space-xl);
+  overflow: auto;
+  transform: translateX(100%);
+  transition: transform 200ms var(--ease-in);
+}
+.drawer-panel.open {
+  transform: translateX(0);
+  transition: transform 300ms var(--ease-out);
+}
+```
+
+### 浮动层动效速查表
+
+| 组件 | Shadow | 进入 | 退出 | Duration (in/out) |
+|---|---|---|---|---|
+| Dropdown Menu | `--shadow-md` | scaleY 0.92→1, y -4→0, fade in | 反向 | 200ms / 120ms |
+| Popover | `--shadow-md` | scale 0.95→1, offset→0, fade in | 反向 | 200ms / 120ms |
+| Modal | `--shadow-lg` | scale 0.95→1, y 12→0, fade in + backdrop | 反向 | 250ms / 150ms |
+| Side Drawer | `--shadow-overlay` | x 100%→0 + backdrop | 反向 | 300ms / 200ms |
+| Toast | `--shadow-md` | y 20→0, fade in | x→100, fade out | spring / spring |
+
+---
+
 ## 7. FORM INTERACTIONS
 
 **Input Focus — Border Highlight (V3: sharp, minimal):**
