@@ -34,53 +34,7 @@ All foundational design tokens: colors, typography, spacing, shadows, radius.
 
 **Figma mode RULE: ALWAYS use `fillVariableId` / `strokeVariableId` / `set_variable_binding` for Lanbow Colors collection tokens. Use hardcoded hex ONLY for V3-specific colors above.**
 
-**Frontend mode RULE: Use CSS variables (`var(--grey-01)`) or Tailwind classes (`text-grey-01`). NEVER hardcode hex values inline — always reference the token.**
-
-### CSS Variables Block (Frontend)
-
-```css
-:root {
-  /* === Lanbow Colors === */
-  --lanbow-cyan: #00B1A2;
-  --grey-01: #181818;
-  --grey-06: #626262;
-  --grey-08: #999999;
-  --grey-12: #EEEEEE;
-  --background: #F3F3F3;
-  --white: #FFFFFF;
-  --selected: rgba(0, 0, 0, 0.02);
-  --stroke: rgba(0, 0, 0, 0.04);
-  --red: #FF2D55;
-  --orange: #FF9500;
-
-  /* === V3 Specific Colors === */
-  --page-bg: #FBF9F4;
-  --nav-text: #2B2933;
-  --nav-border: #E2E0DF;
-  --card-warm-grey: #F8F6F2;
-}
-```
-
-### Tailwind Color Config
-
-```js
-colors: {
-  'lanbow-cyan': '#00B1A2',
-  'grey-01': '#181818',
-  'grey-06': '#626262',
-  'grey-08': '#999999',
-  'grey-12': '#EEEEEE',
-  'bg-main': '#F3F3F3',
-  'page-bg': '#FBF9F4',
-  'nav-text': '#2B2933',
-  'nav-border': '#E2E0DF',
-  'card-warm': '#F8F6F2',
-  'selected': 'rgba(0,0,0,0.02)',
-  'stroke': 'rgba(0,0,0,0.04)',
-  'danger': '#FF2D55',
-  'warning': '#FF9500',
-}
-```
+**Frontend mode RULE: Use CSS variables (`var(--grey-01)`) or Tailwind classes (`text-grey-01`). NEVER hardcode hex values inline — always reference the token. See `frontend.md` for the complete CSS variables block and Tailwind config (single source of truth for all code output).**
 
 ---
 
@@ -92,12 +46,7 @@ colors: {
 - Set `cornerRadius: 0` on all frames, or simply omit (default is 0)
 - Exception: avatars remain circular (radius-round 9999px)
 
-Tailwind config:
-```js
-borderRadius: {
-  none: '0px', /* V3: all corners sharp */
-}
-```
+**Frontend: See `frontend.md` for CSS variables and Tailwind config.**
 
 ---
 
@@ -125,30 +74,7 @@ Layer 2 (Sub-card) → #F8F6F2  warm grey nested surface
 | `--shadow-lg` | `0 8px 24px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04)` | Drop shadow: X0 Y8 B24 rgba(0,0,0,8%) + X0 Y4 B8 rgba(0,0,0,4%) | Modal, dialog, command palette |
 | `--shadow-overlay` | `0 16px 48px rgba(0,0,0,0.10), 0 8px 16px rgba(0,0,0,0.06)` | Drop shadow: X0 Y16 B48 rgba(0,0,0,10%) + X0 Y8 B16 rgba(0,0,0,6%) | Full-screen overlay panels, side drawers |
 
-### CSS Variables
-
-```css
-:root {
-  /* === Shadows (V3: floating layers only) === */
-  --shadow-none: none;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04);
-  --shadow-overlay: 0 16px 48px rgba(0,0,0,0.10), 0 8px 16px rgba(0,0,0,0.06);
-}
-```
-
-### Tailwind Config
-
-```js
-boxShadow: {
-  'none': 'none',
-  'sm': '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
-  'md': '0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04)',
-  'lg': '0 8px 24px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04)',
-  'overlay': '0 16px 48px rgba(0,0,0,0.10), 0 8px 16px rgba(0,0,0,0.06)',
-}
-```
+**Frontend: See `frontend.md` for CSS variables and Tailwind config.**
 
 ### Usage Rules (MANDATORY)
 
@@ -188,30 +114,7 @@ boxShadow: {
 | `space-3xl` | 40px | `--space-3xl` | `gap-10` / `p-10` |
 | `space-4xl` | 48px | `--space-4xl` | `gap-12` / `p-12` |
 
-### CSS Variables
-
-```css
-:root {
-  /* === Spacing === */
-  --space-2xs: 2px;
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 12px;
-  --space-base: 16px;
-  --space-lg: 20px;
-  --space-xl: 24px;
-  --space-2xl: 32px;
-  --space-3xl: 40px;
-  --space-4xl: 48px;
-
-  /* === Container === */
-  --container-max-width: 1400px;
-  --container-padding-top: 24px;
-  --container-padding-x: 48px;
-  --container-padding-bottom: 40px;
-  --container-gap: 16px;
-}
-```
+**Frontend: See `frontend.md` for CSS variables and Tailwind config.**
 
 ### Spacing Usage Guide — When to Use Each Value
 
@@ -319,22 +222,7 @@ Is this inside a single component?
 | **Newsreader** | `--font-data` | Numeric data/KPI values | SemiBold |
 | **Inter** | `--font-ui` | UI text, body, labels, nav | Bold, Semi Bold, Medium, Thin, Regular |
 
-```css
-:root {
-  --font-display: 'Abhaya Libre', serif;
-  --font-data: 'Newsreader', serif;
-  --font-ui: 'Inter', sans-serif;
-}
-```
-
-Tailwind config:
-```js
-fontFamily: {
-  display: ['"Abhaya Libre"', 'serif'],
-  data: ['"Newsreader"', 'serif'],
-  ui: ['"Inter"', 'sans-serif'],
-}
-```
+**Frontend: See `frontend.md` for CSS variables and Tailwind config.**
 
 ### Typography Hierarchy
 
